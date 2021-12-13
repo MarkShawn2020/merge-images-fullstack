@@ -5,6 +5,8 @@ from img_diff.img_diff import DEFAULT_DIFF_THREAD
 
 CropY1Y2 = Tuple[float, float]
 
+MAX_IMG_SIZE = 10 # Mb
+
 
 def merge_imgs(
     imgs: List[Image.Image],
@@ -49,4 +51,5 @@ def merge_imgs(
     final_img = Image.new(base_img.mode, (final_w, final_h), (250, 250, 250))
     for i in range(N):
         final_img.paste(imgs[i], (0, paste_hs[i]))
+    
     return final_img

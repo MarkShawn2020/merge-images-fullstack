@@ -1,4 +1,5 @@
 from typing import List, Tuple
+from backend.img_compress.img_compress import compress_img
 from img_captain.img_captain import DEFAULT_CAPTAIN_PCTS, get_captain_lines
 from img_diff.img_diff import DEFAULT_DIFF_THREAD, get_hashes, get_diffes_bool, get_diffes_int
 from img_merge.img_merge import merge_imgs
@@ -53,6 +54,9 @@ def merge_imgs_of_dir(imgs_dir_path: str):
 
     print("merging img")
     final_img = merge_imgs(imgs, crops)
+
+    print("compressing img")
+    final_img = compress_img(final_img)
 
     print("saving img")
     final_img.save(os.path.join(OUTPUT_DIR, output_img_name))
