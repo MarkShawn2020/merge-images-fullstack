@@ -2,7 +2,8 @@ from PIL import Image
 import io
 import math
 
-DEFAULT_MAX_IMG_SIZE = 10 * 1024 * 1024
+# 微信公众号限制上传10Mb大小的图片
+DEFAULT_MAX_IMG_SIZE = 10 * 1024 * 1024 * 0.9
 DEFAULT_SCALE = 0.9
 
 
