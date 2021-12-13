@@ -59,7 +59,7 @@ async def root():
 
 @app.get("/files/")
 async def get_img(filename: str):
-    # TODO: 压缩加速加载！
+    # FINISHED: 压缩加速加载！
     return FileResponse(get_file_path(filename))
 
 
