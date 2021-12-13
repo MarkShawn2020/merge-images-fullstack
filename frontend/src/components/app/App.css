@@ -1,0 +1,105 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 
+* ------------------------------
+* |         自己定制部分         |
+* ------------------------------
+*/
+
+@import '~antd/dist/antd.css';
+
+/* 阻止图片出现上下间距 */
+.ant-image {
+  display: block;
+}
+
+/* 修改滑块颜色 */
+.ant-slider-track {
+  background-color: indianred;
+}
+
+#body {
+  display: flex;
+  flex-direction: row;
+  min-height: 95vh;
+}
+
+#operates {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  position: relative;
+  margin: 5px;
+  background: lightyellow;
+}
+
+#lowModeSwitch {
+  width: 60px;
+  left: 2px;
+  top: 5px;
+  position: absolute;
+}
+
+#resetBtn {
+  width: 60px;
+  right: 2px;
+  position: absolute
+}
+
+#views_in {
+  width: 40%;
+  background-color: #61dafb;
+  margin: 5px;
+}
+
+#views_in_control {
+  display: flex;
+  justify-items: center
+}
+
+#views_out {
+  width: 40%;
+  margin: 5px;
+  background: pink;
+  display: flex;
+  justify-items: center;
+  justify-content: center
+}

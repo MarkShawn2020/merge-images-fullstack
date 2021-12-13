@@ -6,5 +6,7 @@
 ### VsCode Relative
 - [ ] 【跳转】目前已支持在teriminal中跳转文件，但是还不支持跳转到Line级别，可以考虑开发一个！
 
+## Intro
+![](docs/imgs/web_sample.png)
 
 ## Archive
