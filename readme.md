@@ -1,6 +1,8 @@
 # 南川字幕拼接
 
 ## TODO
+### Algo Relative
+- [ ] 【感兴趣】自动识别场景相近的图片序列进行合并！
 ### React Relative
 - [ ] 【空依赖】src/components/img_item/img_item.js Line 90:8: 的空依赖问题
 ### VsCode Relative
