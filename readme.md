@@ -38,4 +38,4 @@ yarn start
 
 ## Gallery
 
-![web_sample](docs/imgs/web_sample.png)
+![web_sample](.imgs/web_sample.png)
