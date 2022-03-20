@@ -1,41 +1,38 @@
 from typing import List, Tuple
-from backend.core.img_compress.img_compress import compress_img
-from backend.core.img_captain.img_captain import DEFAULT_CAPTAIN_PCTS, get_captain_lines
-from backend.core.img_diff.img_diff import DEFAULT_DIFF_THREAD, get_hashes, get_diffs_bool, get_diffs_int
-from backend.core.img_merge.img_merge import merge_imgs
+from backend.core.img_compress import compress_img
+from backend.core.img_captain import get_captain_lines
+from backend.core.img_diff import get_hashes, get_diffs_bool, get_diffs_int
+from backend.core.img_merge import merge_imgs
 from PIL import Image
 import os
 import re
 
-OUTPUT_DIR = "/Users/mark/Projects/merge_imgs/backend/output"
-IMG_TYPES = ["png", "jpg", "jpeg"]
+from backend.settings import OUTPUT_DIR, VALID_IMG_TYPES, DEFAULT_BODY_PCTS, DEFAULT_DIFF_THREAD, DEFAULT_CAPTAIN_PCTS
 
 
-DEFAULT_BODY_PCTS = [0, 5, 100, 95]
-
-
-def get_crop(img: Image, diff: bool, captain_pcts=DEFAULT_CAPTAIN_PCTS, body_pcts=DEFAULT_BODY_PCTS) -> Tuple[float, float]:
+def get_crop(img: Image, diff: bool, captain_pcts=DEFAULT_CAPTAIN_PCTS, body_pcts=DEFAULT_BODY_PCTS) \
+        -> Tuple[float, float]:
     if diff:
-        return (body_pcts[1],  body_pcts[3])
+        return body_pcts[1], body_pcts[3]
     captain_info = get_captain_lines(img, captain_pcts)
     print({"captain": captain_info})
     if captain_info["lines"] == 0:
-        return (body_pcts[1],  body_pcts[3])
+        return body_pcts[1], body_pcts[3]
     y_mean = (captain_pcts[1] + captain_pcts[3]) / 2
     if captain_info["lines"] == 1:
-        return (y_mean,  captain_pcts[3])
+        return y_mean, captain_pcts[3]
     else:
-        return (captain_pcts[1], captain_pcts[3])
+        return captain_pcts[1], captain_pcts[3]
 
 
 def get_crops(imgs: List[Image.Image]) -> Image.Image:
     diff_thread = DEFAULT_DIFF_THREAD
     hashes = get_hashes(imgs)
-    diffes = get_diffs_int(hashes)
-    diffes_bool = get_diffs_bool(diffes, diff_thread)
-    print({"diffes": diffes, "diffes_bool": diffes_bool, "diff_thread": diff_thread})
+    diffs = get_diffs_int(hashes)
+    diffs_bool = get_diffs_bool(diffs, diff_thread)
+    print({"diffs": diffs, "diffs_bool": diffs_bool, "diff_thread": diff_thread})
 
-    crops = [get_crop(imgs[i], diffes_bool[i]) for i in range(len(imgs))]
+    crops = [get_crop(imgs[i], diffs_bool[i]) for i in range(len(imgs))]
     print({"crops": crops})
     return crops
 
@@ -47,9 +44,9 @@ def merge_imgs_of_dir(imgs_dir_path: str):
 
     print("reading imgs")
     imgs = [Image.open(os.path.join(imgs_dir_path, i))
-            for i in sorted(os.listdir(imgs_dir_path)) if re.search("|".join(IMG_TYPES), i)]
+            for i in sorted(os.listdir(imgs_dir_path)) if re.search("|".join(VALID_IMG_TYPES), i)]
 
-    print("gettings crops")
+    print("getting crops")
     crops = get_crops(imgs)
 
     print("merging img")

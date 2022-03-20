@@ -1,17 +1,15 @@
 from PIL import Image
-from typing import Dict, List
+from typing import List
 import numpy as np
 import os
 
-DEFAULT_CAPTAIN_PCTS = [45, 80, 55, 95]
-DEFAULT_DENSITY_THREAD = 0.1
-SPLIT = 56
+from backend.settings import DEFAULT_CAPTAIN_PCTS, DEFAULT_DENSITY_THREAD, DEFAULT_RATIO_THREAD
 
 
 def _get_ratio(img: Image.Image, pcts: List[float]) -> float:
     w, h = img.size
     # reference: python 图片二值化处理（处理后为纯黑白的图片）_大蛇王的博客-CSDN博客_python二值化, https://blog.csdn.net/t8116189520/article/details/80271804
-    mask = [0] * (256 - SPLIT) + [1] * SPLIT
+    mask = [0] * (256 - DEFAULT_RATIO_THREAD) + [1] * DEFAULT_RATIO_THREAD
     img = img.crop((w / 100 * pcts[0], h / 100 * pcts[1],
                     w / 100 * pcts[2], h / 100 * pcts[3])).convert("L").point(mask, "1")
     # 对偏白的图片检测效果还不够好，要想这个算法准确度高，还得提高对文字的区分度，比如单连通面积等，测例：/Users/mark/Pictures/截图/马男/超长的书名/截屏2021-12-11 下午2.57.20.png
@@ -49,7 +47,7 @@ def get_captain_lines(img: Image.Image, pcts: List[float] = DEFAULT_CAPTAIN_PCTS
 
 
 if __name__ == "__main__":
-    SAMPLE_DIR = os.path.join(os.path.dirname(__file__), "samples")
+    SAMPLE_DIR = os.path.join(os.path.dirname(__file__), "../samples")
     imgs = [Image.open(os.path.join(SAMPLE_DIR, i))
             for i in sorted(os.listdir(SAMPLE_DIR))[-1:]]
     for img in imgs:

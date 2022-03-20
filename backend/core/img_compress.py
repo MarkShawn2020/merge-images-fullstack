@@ -2,11 +2,7 @@ from PIL import Image
 import io
 import math
 
-# 微信公众号限制图片大小于10Mb
-DEFAULT_MAX_IMG_SIZE = 10 * 1024 * 1024 * 0.9
-# 微信公众号限制长宽乘积小于600万
-DEFAULT_MAX_IMG_DIMENSION = 6000000
-DEFAULT_SCALE = 0.9
+from backend.settings import DEFAULT_MAX_IMG_SIZE, DEFAULT_MAX_IMG_DIMENSION, DEFAULT_MIN_SCALE_RATIO
 
 
 def _compress_img_by_pct(img: Image.Image, pct: float) -> Image.Image:
@@ -17,9 +13,9 @@ def _compress_img_by_pct(img: Image.Image, pct: float) -> Image.Image:
 
 
 def compress_img(
-    img: Image.Image,
-    max_img_size: float = DEFAULT_MAX_IMG_SIZE,
-    scale: float = DEFAULT_SCALE
+        img: Image.Image,
+        max_img_size: float = DEFAULT_MAX_IMG_SIZE,
+        scale: float = DEFAULT_MIN_SCALE_RATIO
 ) -> Image.Image:
     assert 0 < scale < 1
     while True:
@@ -33,7 +29,7 @@ def compress_img(
             img.save(b, format=img.format)
             bytes_size = b.tell()
             print(
-                f"bytes size: {bytes_size:10}, img size: {img.size}, pixels: {w*h/10000}w")
+                f"bytes size: {bytes_size:10}, img size: {img.size}, pixels: {w * h / 10000}w")
             if bytes_size > max_img_size:
                 pct = math.sqrt(max_img_size / bytes_size)
                 pct = min(pct, scale)
@@ -45,6 +41,7 @@ def compress_img(
 
 if __name__ == "__main__":
     import os
+
     choice = 0
     if choice == 1:
         img_path = "/Users/mark/Projects/merge_imgs/backend/output/人生是一场永不落幕的演出.png"
