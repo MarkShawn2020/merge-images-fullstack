@@ -1,8 +1,8 @@
 from typing import List, Tuple
-from backend.img_compress.img_compress import compress_img
-from img_captain.img_captain import DEFAULT_CAPTAIN_PCTS, get_captain_lines
-from img_diff.img_diff import DEFAULT_DIFF_THREAD, get_hashes, get_diffes_bool, get_diffes_int
-from img_merge.img_merge import merge_imgs
+from backend.core.img_compress.img_compress import compress_img
+from backend.core.img_captain.img_captain import DEFAULT_CAPTAIN_PCTS, get_captain_lines
+from backend.core.img_diff.img_diff import DEFAULT_DIFF_THREAD, get_hashes, get_diffs_bool, get_diffs_int
+from backend.core.img_merge.img_merge import merge_imgs
 from PIL import Image
 import os
 import re
@@ -31,8 +31,8 @@ def get_crop(img: Image, diff: bool, captain_pcts=DEFAULT_CAPTAIN_PCTS, body_pct
 def get_crops(imgs: List[Image.Image]) -> Image.Image:
     diff_thread = DEFAULT_DIFF_THREAD
     hashes = get_hashes(imgs)
-    diffes = get_diffes_int(hashes)
-    diffes_bool = get_diffes_bool(diffes, diff_thread)
+    diffes = get_diffs_int(hashes)
+    diffes_bool = get_diffs_bool(diffes, diff_thread)
     print({"diffes": diffes, "diffes_bool": diffes_bool, "diff_thread": diff_thread})
 
     crops = [get_crop(imgs[i], diffes_bool[i]) for i in range(len(imgs))]
