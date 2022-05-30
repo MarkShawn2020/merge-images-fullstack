@@ -1,12 +1,14 @@
 import OSS from 'ali-oss';
 import moment from 'moment';
+import os
+
 
 const loadClient = async () => {
     return new OSS({
         region: 'oss-cn-hangzhou',
         // stsToken: '<Your securityToken>',
-        accessKeyId: 'LTAI5tMY6a1FXn2PxrQZKcxT',
-        accessKeySecret: 'NViN8166k42IVuXnSQIKuEnImsr1WN',
+        accessKeyId: os.environ["ALI_AK"],
+        accessKeySecret: os.environ["ALI_SK"],
         bucket: 'mark-vue-oss'
     });
 };
