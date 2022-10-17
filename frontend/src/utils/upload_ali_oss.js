@@ -1,19 +1,21 @@
 import OSS from 'ali-oss';
 import moment from 'moment';
-import os
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 
 const loadClient = async () => {
     return new OSS({
-        region: 'oss-cn-hangzhou',
+        region: process.env.ALI_REGION,
         // stsToken: '<Your securityToken>',
-        accessKeyId: os.environ["ALI_AK"],
-        accessKeySecret: os.environ["ALI_SK"],
-        bucket: 'mark-vue-oss'
+        accessKeyId: process.env.ALI_AK,
+        accessKeySecret: process.env.ALI_SK,
+        bucket: process.env.ALI_BUCKET,
     });
 };
 
-export const putBlob = async ({ file }) => {
+export const putBlob = async ({file}) => {
     const client = await loadClient();
     try {
         //object-name可以自定义为文件名（例如file.txt）或指定目录（例如abc/test/file.txt）的形式，实现将文件上传至当前Bucket或Bucket下的指定目录。
